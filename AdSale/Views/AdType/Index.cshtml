@@ -1,0 +1,75 @@
+﻿@model System.Collections.Generic.ICollection<AdSale.Models.AdTypeModel>
+
+@{
+	ViewData["Title"] = "Auglýsingaflokkar";
+}
+
+<br />
+
+<div class="left">
+	<div class="inner">
+		<div class="row">
+			<div class="col-md-10">
+				<h2>Auglýsingategundir</h2>
+			</div>
+			<div class="col-md-2">
+				<a class="btn btn-primary pull-right" asp-Controller="AdType" asp-Action="Create">Nýskrá auglýsingategund</a>
+			</div>
+		</div>
+		<br />
+
+		<table class="table table-hover">
+			<thead>
+			<tr>
+				<th>Nafn</th>
+				<th>Grunnstafafjöldi</th>
+				<th>Grunnverð</th>
+				<th>Aukastafafjöldi</th>
+				<th>Aukaverð</th>
+				<th>Verð fyrirsagnar</th>
+				<th>Miðill</th>
+                <th>Virkur</th>
+			</tr>
+			</thead>
+			<tbody>
+			
+			@if (Model != null)
+			{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@Html.ActionLink(item.Name, "Edit", new { id = item.Id })
+						</td>
+						<td>
+							@item.BaseCharacterCount
+						</td>
+						<td>
+							@item.BaseCharacterPrice
+						</td>
+						<td>
+							@item.AdditionalCharacterCount
+						</td>
+						<td>
+							@item.AdditionalCharacterPrice
+						</td>
+						<td>
+							@item.HeaderPrice
+						</td>
+						<td>
+							@item.MediaName
+						</td>
+                        <td>
+                            <span class="@Html.Raw(item.IsActive ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove")" title="@Html.Raw(item.IsActive ? "Virkur flokkur" : "Óvirkur flokkur")" style="color: @Html.Raw(item.IsActive ? "green" : "red"); left: 11px;"></span>
+                        </td>
+					</tr>
+				}
+			}
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<br/>
+<br/>
+<br/>

@@ -1,0 +1,69 @@
+﻿@model AdSale.Models.AdTypeModel
+
+@{
+	ViewData["Title"] = "Nýskrá flokk";
+}
+
+<br /><br />
+<div class="row">
+	<div class="col-md-6">
+		
+		@using (Html.BeginForm())
+		{
+			<div class="form-group">
+				@Html.LabelFor(m => m.Name)
+				@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Nafn tegundar" })
+				@Html.ValidationMessageFor(m => m.Name)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.MediaId)
+				@Html.DropDownListFor(x => x.MediaId, new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Media, "Id", "Name"), "-- Veldu miðil --", new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.MediaId)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.BaseCharacterCount)
+				@Html.TextBoxFor(m => m.BaseCharacterCount, new { @class = "form-control", placeholder = "Grunnstafafjöldi" })
+				@Html.ValidationMessageFor(m => m.BaseCharacterCount)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.BaseCharacterPrice)
+				@Html.TextBoxFor(m => m.BaseCharacterPrice, new { @class = "form-control", placeholder = "Grunnverð" })
+				@Html.ValidationMessageFor(m => m.BaseCharacterPrice)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.AdditionalCharacterCount)
+				@Html.TextBoxFor(m => m.AdditionalCharacterCount, new { @class = "form-control", placeholder = "Aukastafafjöldi" })
+				@Html.ValidationMessageFor(m => m.AdditionalCharacterCount)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.AdditionalCharacterPrice)
+				@Html.TextBoxFor(m => m.AdditionalCharacterPrice, new { @class = "form-control", placeholder = "Aukaverð" })
+				@Html.ValidationMessageFor(m => m.AdditionalCharacterPrice)
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.HeaderPrice)
+				@Html.TextBoxFor(m => m.HeaderPrice, new { @class = "form-control", placeholder = "Verð fyrirsagnar" })
+				@Html.ValidationMessageFor(m => m.HeaderPrice)
+			</div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsActive)
+                @Html.CheckBoxFor(m => m.IsActive)
+            </div>
+
+			<button type="submit" class="btn btn-primary">Nýskrá</button>
+			@Html.ActionLink("Til baka", "Index")
+		}
+
+	</div>
+</div>
+
+@section Scripts {
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

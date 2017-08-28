@@ -1,0 +1,139 @@
+﻿@model System.Collections.Generic.ICollection<AdSale.ServiceModels.ParentCategory>
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+
+@{
+	ViewData["Title"] = "Auglýsingaflokkar";
+}
+
+<br />
+
+<div class="left">
+	<div class="inner">
+		<div class="row">
+			<div class="col-md-10">
+				<h2>Auglýsingaflokkar</h2>
+			</div>
+			<div class="col-md-2">
+				<a class="btn btn-primary pull-right" asp-Controller="Category" asp-Action="Create">Nýskrá yfirflokk</a>
+			</div>
+		</div>
+		<br />
+
+		<table class="table table-hover">
+			<thead>
+			<tr>
+				<th></th>
+				<th>Færa</th>
+				<th>Flokkur</th>
+				<th>Virkur</th>
+				<th></th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			
+			@if (Model != null)
+			{
+				int i = 0;
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@if (item.Subcategories != null && item.Subcategories.Count > 0)
+							{
+								<span class="parent-category glyphicon glyphicon-expand" data-id="@item.Id"></span>
+							}
+							else
+							{
+								<span class="glyphicon glyphicon-unchecked" title="Enginn undirflokkur"></span>
+							}
+						</td>
+						<td>
+							@if (i != 0)
+							{
+								@Html.ActionLink("↑", "MoveCategoryItem", new {index = i, move = -1}, new {onclick = "localStorage.setItem('my-scroll-pos', $(window).scrollTop());"})
+							}
+							@if (i != Model.Count - 1)
+							{
+								@Html.ActionLink("↓", "MoveCategoryItem", new {index = i, move = 1}, new {onclick = "localStorage.setItem('my-scroll-pos', $(window).scrollTop());"})
+							}
+						</td>
+						<td>
+							@Html.ActionLink(item.Name, "Edit", new {id = item.Id})
+						</td>
+						<td>
+							<span class="@Html.Raw(item.IsActive ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove")" title="@Html.Raw(item.IsActive ? "Virkur flokkur" : "Óvirkur flokkur")" style="color: @Html.Raw(item.IsActive ? "green" : "red"); left: 11px;"></span>
+						</td>
+						<td>
+							<a href="@Url.Action("Create", new {parentId = item.Id})" class="btn btn-primary pull-right" title="Nýr undirflokkur">Nýr undirflokkur</a>
+						</td>
+						<td class="text-center">
+							<a href="@Url.Action("Delete", new {id = item.Id})" class="glyphicon glyphicon-trash" title="Eyða" onclick = "return confirm('Ertu viss um að þú viljir eyða þessu flokk?');" style="top: 10px;"></a>
+						</td>
+					</tr>
+					if (item.Subcategories != null)
+					{
+						int j = 0;
+						foreach (var subcat in item.Subcategories)
+						{
+							<tr class="hidden" data-id="subcat-@item.Id">
+								<td style="text-align: center;">
+									<span class="glyphicon glyphicon-chevron-right"></span>
+								</td>
+								<td>
+									@if (j != 0)
+									{
+										@Html.ActionLink("↑", "MoveCategoryItem", new {index = j, move = -1, parentId = item.Id}, new {onclick = "localStorage.setItem('my-scroll-pos', $(window).scrollTop());"})
+									}
+									@if (j != item.Subcategories.Count - 1)
+									{
+										@Html.ActionLink("↓", "MoveCategoryItem", new {index = j, move = 1, parentId = item.Id}, new {onclick = "localStorage.setItem('my-scroll-pos', $(window).scrollTop());"})
+									}
+								</td>
+								<td>
+									@Html.ActionLink(subcat.Name, "Edit", new {id = subcat.Id})
+								</td>
+								<td>
+									<span class="@Html.Raw(subcat.IsActive ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove")" title="@Html.Raw(subcat.IsActive ? "Virkur flokkur" : "Óvirkur flokkur")" style="color: @Html.Raw(subcat.IsActive ? "green" : "red"); left: 11px;"></span>
+								</td>
+								<td>
+								</td>
+								<td class="text-center">
+									<a href="@Url.Action("Delete", new {id = subcat.Id })" class="glyphicon glyphicon-trash" title="Eyða" onclick = "return confirm('Ertu viss um að þú viljir eyða þessu undirflokk?');"></a>
+								</td>
+							</tr>
+							j++;
+						}
+					}
+					i++;
+				}
+			}
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<br/>
+<br/>
+<br/>
+
+<script>
+	
+	$(function () {
+
+		$("span.parent-category").click(function () {
+			var el = $(this);
+			var id = el.attr("data-id");
+			$(this).toggleClass('glyphicon-expand');
+			$(this).toggleClass('glyphicon-collapse-down');
+
+			var hiddenRows = $("tr").filter(function () {
+				return $(this).data("id") === 'subcat-' + id;
+			});
+
+			hiddenRows.toggleClass('hidden');
+		});
+
+	});
+</script>

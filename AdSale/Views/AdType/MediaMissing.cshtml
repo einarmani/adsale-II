@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Auglýsingaflokkar";
+}
+
+<br />
+
+<div class="left">		
+	<div class="inner">
+		<div class="row">
+			<h2>Enginn miðill fannst!</h2>
+			<p>Til að skrá nýja auglýsingategund þarf að vera til miðill. Smelltu á takkann til að búa til nýjan miðil.</p>
+			<br/>
+			<a class="btn btn-primary" asp-Controller="Media" asp-Action="Create">Nýskrá miðil</a>
+			@Html.ActionLink("Til baka", "Index")
+		</div>
+	</div>
+</div>
